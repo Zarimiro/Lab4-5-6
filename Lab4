@@ -1,0 +1,65 @@
+
+#include <stdlib.h>
+#include <string.h>
+#include<iostream>
+using namespace std;
+
+struct Characteristics
+{
+	char engine[16];
+    int maxspeed;
+	int height;
+};
+
+struct Car  // Структура машина
+{
+	char name[28]; // название
+	Characteristics chara;
+    int manuf;
+};
+
+
+int main(int argc, char* argv[])
+{
+    Car *pC;
+    int n;
+    cout<<"Number of cars:";
+    cin>>n;
+    pC = (Car *)malloc(n*sizeof(Car));
+    for (int i = 0; i<n; i++)
+    {
+        cout<<"Car №"<<i+1<<":"<<endl;
+        cout<<"Name:"<<endl;
+        fflush(stdin);
+        cin>>pC[i].name;
+        cout<<"\nCharacteristics:";
+        cout<<"\nEngine name:"<<endl;
+        fflush(stdin);
+        cin>>pC[i].chara.engine;
+
+        cout<<"\nMax speed:"<<endl;
+        cin>>pC[i].chara.maxspeed;
+        cout<<"\nHeight:"<<endl;
+        cin>>pC[i].chara.height;
+        fflush(stdin);
+        cout<<"\nManufactured in:"<<endl;
+        cin>>pC[i].manuf;
+    }
+    for (int i = 0; i<n; i++)
+        cout<<"\n\n\nCar number:"<<n<<endl<<
+                "Car name:"<< pC[i].name<<endl<<"Engine name:"<<pC[i].chara.engine<<endl<<
+                 "Max speed:"<<pC[i].chara.maxspeed<<endl<<"Car height:"<< pC[i].chara.height<<endl<<
+                 "Manufactured in:"<<pC[i].manuf<<endl;
+    char Engine_search[16];
+    cout<<"\nEnter the engine you'd love to acquire:";
+    fflush(stdin);
+    cin>>Engine_search;
+    int f = 0;
+    for (int i = 0; i<n; i++)
+        if (strcmp(Engine_search, pC[i].chara.engine) == 0)
+            if (pC[i].manuf>2010) f++;
+    if (f!=0) cout<<"Number of new cars with such engines:"<<f;
+    else cout<<"\nNothing to find";
+    delete pC;
+    return 0;
+}
