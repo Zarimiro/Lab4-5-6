@@ -1,0 +1,46 @@
+#include "stdafx.h"
+#include<stdlib.h>
+#include<iostream>
+#include<conio.h>
+#include<time.h>
+
+using namespace std;
+
+ int main(int argc, char *argv[], char *envp[])
+{
+	 setlocale(LC_ALL, "Russian");
+	 double n, m;
+	 n = atoi(argv[1]);
+	 m = atoi(argv[2]);
+	 cout << "\nNumber of lines:" << n << endl << "Number of columns:" << m << endl;
+	 int **p = new int*[n];
+	 srand(time(0));
+	 for (int i = 0; i < n; i++) {
+		 p[i] = new int[m];
+		 for (int j = 0; j < m; j++) {
+			 p[i][j] = rand() % 50;
+			 cout << p[i][j] << "\t";
+		 }
+		 cout << endl;
+	 }
+	 cout << endl;
+	 double midnum = 0.;
+	 for (int i = 0; i < n; i++) {
+		 int buf = 0;
+		 for (int j = 0; j < m; j++) {
+			 buf += p[i][j];
+		 }
+		 buf /= m;
+		 midnum += buf;
+	 }
+	 midnum /= (double)m;
+	 cout << "\nThe middle ariphmetical of middle ariphmeticals of lines is:" << midnum;
+	 cout << endl;
+
+	 for (int i = 0; i < n; i++) {
+		 delete[]p[i];
+	 }
+	 delete[] p;
+	_getch();
+	return 0;
+}
