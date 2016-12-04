@@ -8,6 +8,10 @@ using namespace std;
 
  int main(int argc, char *argv[], char *envp[])
 {
+	 if (argc < 2) {
+		 cout << "Error! Expected more parametres.";
+		 return 1;
+	 }
 	 setlocale(LC_ALL, "Russian");
 	 double n, m;
 	 n = atoi(argv[1]);
