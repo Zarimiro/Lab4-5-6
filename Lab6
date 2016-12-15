@@ -1,0 +1,120 @@
+#include "stdafx.h"
+#include <stdio.h>
+#include <conio.h>
+#include <iostream> 
+using namespace std; 
+
+struct Fuel
+{
+	char gas_station[64];
+	int petrol; 
+	double price; 
+};
+
+struct List 
+{
+	Fuel fuel;
+	List *pNext; 
+};
+
+void addFirst(List *& pF, List* p)
+{
+	p->pNext = pF;
+	pF = p;
+}
+
+List * delFirst(List *&pF) 
+{
+	if (pF == 0) return 0;
+	List *p = pF;
+	pF = pF->pNext;
+	return p;
+
+}
+
+bool add(List *&pF, List * pZad, List *p)
+{
+	
+	if (pZad == pF) 
+	{
+		p->pNext = pF;
+		pF = p;
+		return true;
+	}
+
+	List *pPrev = pF; 
+	while (pPrev->pNext != pZad && pPrev->pNext)
+		pPrev = pPrev->pNext;
+	if (pPrev->pNext == 0) return false; 
+	p->pNext = pZad;
+	pPrev->pNext = p;
+	return true;
+}
+
+List * del(List*& pF, List *p) 
+{
+	if (pF == 0) return 0;
+	if (pF == p) 
+	{
+		pF = pF->pNext;
+		return p;
+	}
+	else
+	{
+		List *pPrev = pF; 
+		while (pPrev->pNext != p && pPrev->pNext)
+			pPrev = pPrev->pNext;
+		if (pPrev->pNext == 0) return 0; 
+		pPrev->pNext = p->pNext;
+		return p;
+	}
+	while (delFirst(pF)); 
+}
+
+int main(int argc, char* argv[])
+{
+	List *pF = 0; 
+	List *p;
+	
+	char choose;
+	do
+	{
+
+		p = (List *)malloc(sizeof(List)); 
+		cout << "\nEnter the gas station name:";
+		cin >> p->fuel.gas_station;
+		cout << "\nEnter the gasoline tank capacity:";
+		cin >> p->fuel.petrol;
+		cout << "\nEnter the price of petrol:";
+		cin >> p->fuel.price;
+		addFirst(pF, p); 
+		printf("To continue,press F or f;to quit press any other key! ");
+		choose = _getche();
+	} while (choose == 'F' || choose == 'f');
+	
+	for (List *pi = pF; pi; pi = pi->pNext) 
+		cout << "\n\nGasoline station:" << pi->fuel.gas_station << ";gasoline capacity:" << pi->fuel.petrol << ";Price:"<<pi->fuel.price<<endl;
+
+	for (List *pi = pF; pi->pNext;)
+	{
+		double max = pi->fuel.petrol;
+		List *pmax = pi;
+		for (List *pj = pi->pNext; pj; pj = pj->pNext)
+			if (pj->fuel.petrol>max)
+			{
+				max = pj->fuel.petrol;
+				pmax = pj;
+			}
+		if (pi != pmax) 
+		{
+			del(pF, pmax);
+			add(pF, pi, pmax);
+		}
+		else pi = pi->pNext;
+	}
+	cout << "\nStations with their parametres after sorting:\n--------------------------------------------------------------------------------" << endl;
+	for (List *pi = pF; pi; pi = pi->pNext) 
+		cout << "\nGasoline station:" << pi->fuel.gas_station << ";gasoline capacity:" << pi->fuel.petrol << ";Price:" << pi->fuel.price << endl;
+	_getch(); 
+	return 0;
+}
